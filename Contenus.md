@@ -12,4 +12,4 @@
 
 *Figure 1: Principe du test BCI*
 
-![Figure 1: Principe du test BCI](Images/Configuration_cavité.PNG)
+![Figure 1: Principe du test BCI](Images/Principe BCI.png)
