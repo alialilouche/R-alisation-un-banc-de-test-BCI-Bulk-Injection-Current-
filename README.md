@@ -1,5 +1,5 @@
 # Réalisation d'un banc de test BCI (Bulk Injection Current)
-La méthode Bulk current injection (BCI) est couramment utilisée pour qualifier l’immunité des équipements et des composants électroniques vis-à-vis de perturbation électromagnétiques radiofréquences. Cette méthode est proposée par différents standards, tels que : ISO11452-4 pour le test d'équipements électroniques pour l'automobile.
+Ce projet est réalisé au cours de la formation M2 CEM qui représente la mise en oeuvre d'un banc de test de la méthode Bulk current injection (BCI) est couramment utilisée pour qualifier l’immunité des équipements et des composants électroniques vis-à-vis de perturbation électromagnétiques radiofréquences. Cette méthode est proposée par différents standards, tels que : ISO11452-4 pour le test d'équipements électroniques pour l'automobile.
 
 ## Montage BCI 
 
