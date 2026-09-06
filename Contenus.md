@@ -153,7 +153,7 @@ Le pilotage du banc d’essai BCI est assuré par le logiciel emcware® v4.0 dé
 
 Dans cette étape, nous allons décrire la mise en place du setup complet pour le lancement de la phase de calibrage. Nous nous intéresserons, dans un premier temps, au calibrage par la méthode de substitution, en utilisant des équipements déjà calibrés. Cette phase de calibrage permet de relever la puissance nécessaire pour atteindre le niveau de sévérité de test requis sur toute la plage de fréquences, conformément à la norme EN 61000-4-6. Comme indiqué dans la section précédente, trois niveaux de tension sont considérés : 1 V, 3 V et 10 V. Pour chacun de ces niveaux, une procédure de calibration, suivie d’une phase de vérifcation, sera eﬀectuée. Après chaque calibration, les données enregistrées par le logiciel pourront être extraites sous forme de rapports, disponibles dans diﬀérents formats (principalement en .docx et .csv).
 
-## 3. 3. Confguration du logiciel EMCware
+## 5. 3. Confguration du logiciel EMCware
 
 Avant de lancer toute calibration, il est nécessaire de confgurer au préalable le logiciel de pilotage. Cette étape consiste à spécifer la norme sur laquelle on va travailler, à renseigner les facteurs de correction issus du calibrage des équipements, ainsi qu’à compléter, si nécessaire, les informations relatives au client. Dans un premier temps, après avoir sélectionné la norme de travail, on renseigne les paramètres de test. Cela inclut notamment le niveau de sévérité du test, la puissance de démarrage, les tolérances de calcul ainsi que le pas de fréquence pour le balayage. On rappelle que, lors des essais (pour les deux méthodes), un signal modulé en amplitude (AM) est utilisé. La fréquence porteuse fc varie dans la bande de fréquences dédiée. La modulation AM utilisée dans les tests d’immunité conduite est généralement de 1 kHz avec un taux de modulation de 80 %, contrôlé par un facteur m tel que 0 < m < 1. La modulation maximale est obtenue pour m = 0,8. Par ailleurs, lors de la phase de calibrage, la puissance du signal non modulé est augmentée de 5,1 dB afn de représenter correctement l’amplitude du signal modulé utilisé pendant les essais. La deuxième étape concerne le routage du signal. Dans cette section, on défnit les équipements de test constituant la chaîne de transmission du signal RF, depuis sa génération jusqu’à l’analyseur de spectre. Troisièmement, une rubrique dédiée, appelée EUT Monitoring, permet de renseigner les caractéristiques de l’équipement sous test. Enfin, la puissance de calibrage Pcal peut être calculée comme suit :
 
@@ -168,4 +168,26 @@ P_{\mathrm{FWD}} = P_{\mathrm{PM}} + L_{\mathrm{coupleur}} + L_{\mathrm{FWD}} \p
 $$
 
 où $P_{PM}$ représente la puissance directe mesurée par le wattmètre, $L_{coupleur}$ est l’atténuation du coupleur directionnel, $L_{FWD}$ est la perte de puissance dans le câble reliant la sortie du coupleur directionnel à la sonde d’injection et $U_{FWD}$ représente l’incertitude élargie totale de la mesure de puissance. Pour chacun des niveaux de sévérité, on fait la même procédure de confguration. Donc au fnal on peut procéder au montage de nos équipements et lancer le calibrage comme illustré dans la photo suivante :
+
+***Figure 3: Montage des équipements et lancement du calibrage***
+
+![Figure 3: Montage des équipements et lancement du calibrage](Images/Montage_BCI.PNG)
+
+# 6. Analyse de résultats et discussion
+
+*-* Niveau 1
+
+La calibration du niveau 1 vise à déterminer, sur l’ensemble de la bande fréquentielle, la puissance de génération nécessaire en fonction de la fréquence, afin d’atteindre une tension cible au point de contrôle (dispositif d’injection / pince) dans une fenêtre d’acceptation défnie. Cette approche permet de compenser la réponse fréquentielle de la chaîne d’essai (amplifcateur, coupleur, câbles, pince et adaptation de charge), qui n’est pas constante. La sortie de calibration est une table P(f) (vecteur de puissance), ensuite utilisée pendant l’essai pour rejouer automatiquement le niveau requis à chaque fréquence.
+
+* Résultats de calibration – Puissance mesurée en fonction de la fréquence
+
+La Figure 5.2 présente la puissance mesurée (en dBm) en fonction de la fréquence lors de la calibration PI du niveau 1. La courbe montre une forte dépendance fréquentielle, confrmant que la chaîne d’injection n’a pas un comportement plat sur la bande. Les tendances principales observées sont :
+
+— Basses fréquences : puissance élevée, de l’ordre de $20 à 21 dBm$ en début de bande.
+
+— Zone centrale : décroissance progressive vers un minimum voisin de $16.2 à 16.4 dBm$.
+
+— Hautes fréquences : augmentation nette de la puissance requise, atteignant environ $20 à 20.5 dBm$ en fin de bande.
+
+**Interprétation**. Le minimum de puissance observé au milieu de bande indique une zone de couplage plus efficace (moins de puissance nécessaire pour atteindre la même tension), tandis que les extrémités de bande nécessitent davantage de puissance pour satisfaire la consigne.
 
