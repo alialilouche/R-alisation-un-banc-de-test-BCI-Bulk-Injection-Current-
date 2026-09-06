@@ -10,7 +10,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp; Le principe du test consiste à injecter un courant haute fréquence dans le faisceau de câbles à l’aide d’une pince d’injection positionnée autour du câble. Cette pince fonctionne selon le principe d’un transformateur : l’enroulement interne alimenté par un générateur RF constitue le primaire, tandis que le câble traversant la pince joue le rôle de secondaire. Le couplage entre la pince et le câble est principalement inductif, tandis que le blindage de la pince permet de limiter le couplage capacitif. Le signal RF est d’abord généré puis amplifé avant d’être appliqué à la pince d’injection. On induit ainsi un courant de mode commun dans le faisceau de câbles. Ce courant se propage le long des conducteurs et peut perturber les circuits internes via les interfaces d’entrée et de sortie. L’essai permet donc d’observer le comportement du système face à une sollicitation électromagnétique conduite.
 
-*Figure 1: Principe du test BCI*
+***Figure 1: Principe du test BCI***
 
 ![Figure 1: Principe du test BCI](Images/Principe_BCI.png)
 
@@ -55,6 +55,64 @@ La norme EN 61000-4-6 défnit la méthode d’essai permettant d’évaluer l’
 La norme EN 61000-4-6 est utilisée dans de nombreux secteurs où la robustesse électromagnétique est essentielle : domaine industriel, télécommunication et électronique grand public. Elle sert de référence aux normes de produit qui précisent les niveaux d’essai
 et les critères de performance applicables à chaque type d’équipement. La plage de fréquences couverte par la norme est comprise entre 150 kHz et 80 MHz. Le signal d’essai est une onde radiofréquence modulée en amplitude à 80 % par une sinusoïde de 1 kHz, afn de reproduire des conditions réalistes d’exposition aux émetteurs radioélectriques. Les niveaux d’essai sont défnis en tension en circuit ouvert (force électromotrice) à l’accès de l’équipement et sont présentés dans le tableau suivant :
 
-*Figure 2: Niveaux d’essai selon EN 61000-4-6*
+***Figure 2: Niveaux d’essai selon EN 61000-4-6***
 
-![Figure 1: Niveaux d’essai selon EN 61000-4-6](Images/Principe_BCI.png)
+![Figure 1: Niveaux d’essai selon EN 61000-4-6](Images/Nvx_test.PNG)
+
+# 4. Qualification & calibrage des équipements
+
+## 4. 1. Importance de la qualification des équipements
+
+Les tests de compatibilité électromagnétique exigent des équipements de mesure performants et fables. Les pinces d’injection de courant, sondes de monitoring (pince de mesure) et amplificateur constituent la base instrumentale de tout laboratoire CEM professionnel. Tous ces équipements de test doivent être régulièrement étalonnés pour garantir la validité des résultats. Les JIGs de calibrage permettent de vérifier rapidement la courbe d’impédance de transfert des pinces d’injection et des sondes avant chaque campagne d’essai. Cette vérifcation systématique assure la conformité métrologique et facilite l’accréditation des laboratoires. Que l’on utilise la méthode de substitution ou la méthode en boucle fermée, l’étalonnage du système constitue la première étape indispensable du processus de test. Lors de cette phase, les niveaux de test ainsi que les niveaux de puissance correspondants sont enregistrés afn d’être réutilisés ultérieurement pendant les essais. La qualifcation préalable des équipements de test est une étape essentielle. En eﬀet, dans le domaine de la mesure et des essais, les instruments ne sont jamais totalement neutres : ils peuvent inﬂuencer les résultats obtenus. L’objectif principal de la qualifcation est donc d’analyser l’équipement de mesure avec un regard critique, en prenant en considération ses diﬀérents comportements, ses incertitudes et les grandeurs susceptibles d’impacter les résultats des tests. Dans le cadre des mesures électroniques, et plus particulièrement en compatibilité électromagnétique, la maîtrise et la précision des valeurs mesurées sont primordiales. Une attention particulière doit être portée au respect des seuils imposés par les normes en vigueur, afin d’éviter tout dépassement pouvant invalider les essais. Il convient également de souligner que chaque constructeur a l’obligation de fournir les caractéristiques techniques associées à ses équipements ainsi que les spécifcations relatives à leur utilisation en mesure. Ces informations constituent une base essentielle pour garantir la fabilité et la conformité des résultats obtenus dans le cadre du test. Néanmoins, la procédure de qualifcation reste indispensable, car les caractéristiques d’un équipement peuvent être inﬂuencées par de nombreux phénomènes, notamment la dérive et la dégradation progressive des performances au cours du temps. Une vérifcation régulière permet ainsi d’assurer la constance, la précision et la traçabilité des mesures réalisées. Dans le but de réaliser un bon calibrage de setup complet d’un essai BCI et d’assurer le bon fonctionnement des équipements, et afn de renseigner les caractéristiques exacte de ces équipements dans le logiciel de pilotage, il va falloir au préalable de calibrer ces équipements un par un. Pour cela, on défnit l’ensemble d’équipements susceptible à être qualifer comme suit : Pince d’injection (PI), pince de mesure (PM), coupleur directionnel, câbles RF, amplifcateur, en utilisant généralement un analyseur de réseau vectoriel (VNA).
+
+### 4. 1. 1 Le VNA (Vector Network Analyzer):
+
+permet de caractériser les paramètres \(S\) des éléments RF, notamment : $$ S_{11} : \text{réflexion à l'entrée} $$ $$ S_{21} : \text{transmission entre l'entrée et la sortie} $$. Avant de mesurer une pince ou un coupleur, on réalise une calibration du VNA afin de déplacer le plan de référence jusqu'aux connecteurs où sera raccordé le dispositif sous test. Une calibration classique peut utiliser un CalKit :
+
+**S — Short**
+
+**O — Open**
+
+**L — Load**
+
+**T — Throu**
+
+Elle permet notamment de corriger les erreurs systématiques du VNA : pertes, désadaptation et directivité. Dans une chaîne BCI, la calibration est importante pour obtenir une mesure fiable de la perte d'insertion, du couplage et des niveaux RF.
+
+### 4. 1. 2. Pince d'injection BCI
+
+La pince d'injection est essentiellement un transformateur RF qui permet de transférer de l'énergie électromagnétique vers le faisceau de câbles sans connexion électrique directe.
+
+Pour une charge résistive équivalente \(Z\), on a :
+
+$$ P=\frac{V_{\mathrm{rms}}^2}{Z} $$
+
+et :
+
+$$ V_{\mathrm{rms}}=I_{\mathrm{rms}}Z $$
+
+donc :
+
+$$ \boxed{P=I_{\mathrm{rms}}^2Z} $$
+
+Ainsi :
+
+$$ I_{\mathrm{rms}} = \sqrt{\frac{Z}{P}} $$
+
+La pince d'injection possède une caractéristique de transfert qui dépend de la fréquence. On peut définir un facteur de couplage sous une forme générale :
+
+$$ CF(f)=\frac{I_{\mathrm{inj}}}{\sqrt{P_{\mathrm{inc}}}} $$
+
+où :
+
+\(CF\) : facteur de transfert de la pince ;
+\(I_{\mathrm{inj}}\) : courant injecté ;
+\(P_{\mathrm{inc}}\) : puissance incidente appliquée à la pince.
+
+En dB, on rencontre des expressions du type :
+
+$$
+CF_{\mathrm{dB}} = 20\log_{10}\left(\frac{I_{\mathrm{inj}}}{\sqrt{P_{\mathrm{inc}}}}\right)
+$$
+
+
