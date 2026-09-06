@@ -65,7 +65,7 @@ et les critères de performance applicables à chaque type d’équipement. La p
 
 Les tests de compatibilité électromagnétique exigent des équipements de mesure performants et fables. Les pinces d’injection de courant, sondes de monitoring (pince de mesure) et amplificateur constituent la base instrumentale de tout laboratoire CEM professionnel. Tous ces équipements de test doivent être régulièrement étalonnés pour garantir la validité des résultats. Les JIGs de calibrage permettent de vérifier rapidement la courbe d’impédance de transfert des pinces d’injection et des sondes avant chaque campagne d’essai. Cette vérifcation systématique assure la conformité métrologique et facilite l’accréditation des laboratoires. Que l’on utilise la méthode de substitution ou la méthode en boucle fermée, l’étalonnage du système constitue la première étape indispensable du processus de test. Lors de cette phase, les niveaux de test ainsi que les niveaux de puissance correspondants sont enregistrés afn d’être réutilisés ultérieurement pendant les essais. La qualifcation préalable des équipements de test est une étape essentielle. En eﬀet, dans le domaine de la mesure et des essais, les instruments ne sont jamais totalement neutres : ils peuvent inﬂuencer les résultats obtenus. L’objectif principal de la qualifcation est donc d’analyser l’équipement de mesure avec un regard critique, en prenant en considération ses diﬀérents comportements, ses incertitudes et les grandeurs susceptibles d’impacter les résultats des tests. Dans le cadre des mesures électroniques, et plus particulièrement en compatibilité électromagnétique, la maîtrise et la précision des valeurs mesurées sont primordiales. Une attention particulière doit être portée au respect des seuils imposés par les normes en vigueur, afin d’éviter tout dépassement pouvant invalider les essais. Il convient également de souligner que chaque constructeur a l’obligation de fournir les caractéristiques techniques associées à ses équipements ainsi que les spécifcations relatives à leur utilisation en mesure. Ces informations constituent une base essentielle pour garantir la fabilité et la conformité des résultats obtenus dans le cadre du test. Néanmoins, la procédure de qualifcation reste indispensable, car les caractéristiques d’un équipement peuvent être inﬂuencées par de nombreux phénomènes, notamment la dérive et la dégradation progressive des performances au cours du temps. Une vérifcation régulière permet ainsi d’assurer la constance, la précision et la traçabilité des mesures réalisées. Dans le but de réaliser un bon calibrage de setup complet d’un essai BCI et d’assurer le bon fonctionnement des équipements, et afn de renseigner les caractéristiques exacte de ces équipements dans le logiciel de pilotage, il va falloir au préalable de calibrer ces équipements un par un. Pour cela, on défnit l’ensemble d’équipements susceptible à être qualifer comme suit : Pince d’injection (PI), pince de mesure (PM), coupleur directionnel, câbles RF, amplifcateur, en utilisant généralement un analyseur de réseau vectoriel (VNA).
 
-### 4. 1. 1 Le VNA (Vector Network Analyzer):
+## 4. 2. Le VNA (Vector Network Analyzer):
 
 permet de caractériser les paramètres \(S\) des éléments RF, notamment : $$ S_{11} : \text{réflexion à l'entrée} $$ $$ S_{21} : \text{transmission entre l'entrée et la sortie} $$. Avant de mesurer une pince ou un coupleur, on réalise une calibration du VNA afin de déplacer le plan de référence jusqu'aux connecteurs où sera raccordé le dispositif sous test. Une calibration classique peut utiliser un CalKit :
 
@@ -79,7 +79,7 @@ permet de caractériser les paramètres \(S\) des éléments RF, notamment : $$ 
 
 Elle permet notamment de corriger les erreurs systématiques du VNA : pertes, désadaptation et directivité. Dans une chaîne BCI, la calibration est importante pour obtenir une mesure fiable de la perte d'insertion, du couplage et des niveaux RF.
 
-### 4. 1. 2. Pince d'injection BCI
+## 4. 3. Pince d'injection BCI
 
 La pince d'injection est essentiellement un transformateur RF qui permet de transférer de l'énergie électromagnétique vers le faisceau de câbles sans connexion électrique directe.
 
@@ -115,4 +115,57 @@ $$
 CF_{\mathrm{dB}} = 20\log_{10}\left(\frac{I_{\mathrm{inj}}}{\sqrt{P_{\mathrm{inc}}}}\right)
 $$
 
+## 4. 3. Pince de mesure
+
+L’analyseur de réseau alimente une borne du JIG, l’autre borne étant terminée par une charge de 50 Ω. Bien que l’analyseur de réseau fonctionne en termes de puissance, il est plus simple de raisonner en termes de tensions correspondantes, puisqu’il s’agit d’un système de $50 Ω$. L’analyseur de réseau mesure le rapport entre la tension de sortie de la sonde de courant $V$ p et la tension d’alimentation du JIG Vin, soit $(Vp/Vin)$. Si l’analyseur de réseau fonctionne en paramètres $S$, cette mesure correspond alors à mesurer $S21$. La relation entre la tension de sortie de la sonde de courant et le courant circulant dans le $f_l$ conducteur autour duquel la sonde est placée est défnie comme l’impédance de transfert de la sonde, généralement notée $Zt$.
+
+$$
+Z_t = \frac{V_p}{I} = \frac{V_p}{V_{\mathrm{in}}} \times 50
+$$
+
+## 4. 4. Qualifcation du coupleur directionnel
+
+Dans le cadre d’un test BCI, le coupleur directionnel joue un rôle important dans la boucle de contrôle et de mesure des puissances. Il consiste à surveiller en temps réel la puissance que l’amplifcateur envoie vers la pince. On peut définir les propriétés communes recherchées pour tous les coupleurs directionnels : une large bande passante opérationnelle, une directivité élevée, des pertes d’insertion minimales et une bonne adaptation d’impédance à tous les ports lorsque les autres ports sont terminés par des charges adaptées. Grâce à ce coupleur, on peut distinguer facilement la puissance directe (incidente) qui va de la source vers la charge ainsi que la puissance réﬂéchie qui revient de la charge vers la source en cas de désadaptation d’impédance.
+
+On va s’intéresser, dans notre étude, aux pertes d’insertion des deux ports (incident et réﬂéchi), ainsi qu’au facteur de couplage. Ce dernier représente le rapport entre la puissance sur la ligne principale et celle mesurée sur le port couplé (qui fournit un échantillon de la puissance directe). Il peut s’exprimer en dB par la formule suivante :
+
+$$
+IL_{(i,2,1)}\,(\mathrm{dB}) = -10\log_{10}\left(\frac{P_ligne}{P_couplé}\right)
+$$
+
+## 4. 5. L’importance de la linéarité de l’amplificateur
+
+Lors des essais BCI, il est indispensable de prendre en compte la non-linéarité de l’amplifcateur de puissance utilisé en amont du banc d’essai, car elle peut contribuer de manière signifcative aux incertitudes du signal de perturbation. Cette non-linéarité peut dominer l’incertitude globale des calculs et conduire à des résultats erronés ou à une mauvaise interprétation du niveau réel de perturbation injecté.
+
+*-* La linéarité de l’amplificateur permet de nous assurer principalement que le niveau de tension de perturbation est correct au niveau de la tension de calibrage, ainsi que sur la profondeur de modulation en amplitude (MA).
+
+*-* La saturation de l’amplificateur est particulièrement indésirable lors des essais BCI, car elle génère des harmoniques à la sortie de l’amplifcateur qui contribuent de manière signifcative aux valeurs mesurées lorsque le mesureur de puissance mesure la puissance totale de la composante fondamentale et de ses harmoniques. Dans un cas pareil, on ne sera pas compétent d’identifer l’immunité de notre EUT s’il répond à la fréquence fondamentale ou à ses harmoniques. Elle peut également provoquer la défaillance de l’EUT.
+
+*-* La limitation de tous les harmoniques à la sortie de l’amplifcateur doit être inférieure à 15 dB par rapport à la fondamentale pour qu’il soit considéré comme adapté. Il convient alors de vérifer la linéarité de l’amplifcateur afn de s’assurer que si on augmente la puissance à l’entrée, la sortie augmente proportionnellement.
+
+# 5. Mise en place du setup
+
+## 5. 1. Logiciel de pilotage
+
+Le pilotage du banc d’essai BCI est assuré par le logiciel emcware® v4.0 développé par AR RF/Microwave Instrumentation. On utilise ce logiciel pour automatiser les essais de compatibilité électromagnétique, que ce soit en immunité rayonnée ou en immunité conduite. Dans le cadre des essais BCI, on a un contrôle automatique du générateur RF, de l’amplifcateur de puissance et du coupleur directionnel. Le logiciel permet également d’acquérir les mesures issues de la pince de courant, d’exécuter le balayage fréquentiel et d’enregistrer l’ensemble des résultats. En mode boucle fermée, on bénéfcie d’un asservissement automatique du courant injecté. Le logiciel compare en permanence le courant mesuré à la consigne défnie et ajuste la puissance du générateur afn de maintenir un niveau constant malgré les variations d’impédance du faisceau. Grâce à cette automatisation, on améliore la reproductibilité des essais, on réduit les erreurs de manipulation et on assure une meilleure traçabilité des campagnes de test.
+
+## 5. 2. Confguration et montage de setup
+
+Dans cette étape, nous allons décrire la mise en place du setup complet pour le lancement de la phase de calibrage. Nous nous intéresserons, dans un premier temps, au calibrage par la méthode de substitution, en utilisant des équipements déjà calibrés. Cette phase de calibrage permet de relever la puissance nécessaire pour atteindre le niveau de sévérité de test requis sur toute la plage de fréquences, conformément à la norme EN 61000-4-6. Comme indiqué dans la section précédente, trois niveaux de tension sont considérés : 1 V, 3 V et 10 V. Pour chacun de ces niveaux, une procédure de calibration, suivie d’une phase de vérifcation, sera eﬀectuée. Après chaque calibration, les données enregistrées par le logiciel pourront être extraites sous forme de rapports, disponibles dans diﬀérents formats (principalement en .docx et .csv).
+
+## 3. 3. Confguration du logiciel EMCware
+
+Avant de lancer toute calibration, il est nécessaire de confgurer au préalable le logiciel de pilotage. Cette étape consiste à spécifer la norme sur laquelle on va travailler, à renseigner les facteurs de correction issus du calibrage des équipements, ainsi qu’à compléter, si nécessaire, les informations relatives au client. Dans un premier temps, après avoir sélectionné la norme de travail, on renseigne les paramètres de test. Cela inclut notamment le niveau de sévérité du test, la puissance de démarrage, les tolérances de calcul ainsi que le pas de fréquence pour le balayage. On rappelle que, lors des essais (pour les deux méthodes), un signal modulé en amplitude (AM) est utilisé. La fréquence porteuse fc varie dans la bande de fréquences dédiée. La modulation AM utilisée dans les tests d’immunité conduite est généralement de 1 kHz avec un taux de modulation de 80 %, contrôlé par un facteur m tel que 0 < m < 1. La modulation maximale est obtenue pour m = 0,8. Par ailleurs, lors de la phase de calibrage, la puissance du signal non modulé est augmentée de 5,1 dB afn de représenter correctement l’amplitude du signal modulé utilisé pendant les essais. La deuxième étape concerne le routage du signal. Dans cette section, on défnit les équipements de test constituant la chaîne de transmission du signal RF, depuis sa génération jusqu’à l’analyseur de spectre. Troisièmement, une rubrique dédiée, appelée EUT Monitoring, permet de renseigner les caractéristiques de l’équipement sous test. Enfin, la puissance de calibrage Pcal peut être calculée comme suit :
+
+$$
+P_{\mathrm{cal}} = P_{\mathrm{FWD}} - P_{\mathrm{RVS}}
+$$
+
+où $P_{FWD}$ et $P_{RVS}$ sont les puissances directe et réﬂéchie respectivement. La puissance directe appliquée sur la sonde d’injection de courant est exprimée comme suit :
+
+$$
+P_{\mathrm{FWD}} = P_{\mathrm{PM}} + L_{\mathrm{coupleur}} + L_{\mathrm{FWD}} \pm U_{\mathrm{FWD}}
+$$
+
+où $P_{PM}$ représente la puissance directe mesurée par le wattmètre, $L_{coupleur}$ est l’atténuation du coupleur directionnel, $L_{FWD}$ est la perte de puissance dans le câble reliant la sortie du coupleur directionnel à la sonde d’injection et $U_{FWD}$ représente l’incertitude élargie totale de la mesure de puissance. Pour chacun des niveaux de sévérité, on fait la même procédure de confguration. Donc au fnal on peut procéder au montage de nos équipements et lancer le calibrage comme illustré dans la photo suivante :
 
